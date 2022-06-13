@@ -1,0 +1,40 @@
+package POJO;
+
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+public class Listas {
+
+    public static ArrayList<Usuario> getUsuarios(){
+        
+        ArrayList<Usuario> usuarios = new ArrayList<>();
+        
+        try {
+            
+            BufferedReader br = new BufferedReader(new FileReader(Ficheros.getArchivoUsuarios()));
+            
+            String linea;
+            while((linea = br.readLine()) != null){
+                
+                String [] datos = linea.split(" ");
+                
+                usuarios.add(new Usuario(datos[0], datos[1], Integer.parseInt(datos[2])));
+                
+            }
+            
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(Listas.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(Listas.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return usuarios;
+        
+    }
+    
+}
