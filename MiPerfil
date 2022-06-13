@@ -1,0 +1,402 @@
+package view;
+
+import POJO.Ficheros;
+
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.sql.Date;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Formatter;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+
+public class MiPerfil extends javax.swing.JDialog {
+
+    PreparedStatement p;
+    ResultSet r;
+
+    String user;
+
+    DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+    LocalDateTime now = LocalDateTime.now();
+
+    public MiPerfil(java.awt.Frame parent, boolean modal, String user) {
+        super(parent, modal);
+        initComponents();
+
+        this.user = user;
+
+        this.setLocationRelativeTo(null);
+        this.setTitle("Mi Perfil");
+
+        cargarUsuario();
+
+    }
+
+    @SuppressWarnings("unchecked")
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    private void initComponents() {
+
+        jScrollPane1 = new javax.swing.JScrollPane();
+        respuestas = new javax.swing.JTextArea();
+        jLabel2 = new javax.swing.JLabel();
+        nombre = new javax.swing.JLabel();
+        enviarComentario = new javax.swing.JButton();
+        enviarReclamo = new javax.swing.JButton();
+        enviarPregunta = new javax.swing.JButton();
+        reclamos = new javax.swing.JButton();
+        preguntas = new javax.swing.JButton();
+        comentarios = new javax.swing.JButton();
+
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+
+        respuestas.setEditable(false);
+        respuestas.setColumns(20);
+        respuestas.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        respuestas.setLineWrap(true);
+        respuestas.setRows(5);
+        respuestas.setWrapStyleWord(true);
+        respuestas.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)), "Respuestas", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 14))); // NOI18N
+        jScrollPane1.setViewportView(respuestas);
+
+        jLabel2.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jLabel2.setText("Usuario:");
+
+        nombre.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+
+        enviarComentario.setBackground(new java.awt.Color(204, 255, 204));
+        enviarComentario.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        enviarComentario.setText("<html><center>Enviar<br>Comentario<br>");
+        enviarComentario.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                enviarComentarioActionPerformed(evt);
+            }
+        });
+
+        enviarReclamo.setBackground(new java.awt.Color(255, 204, 204));
+        enviarReclamo.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        enviarReclamo.setText("<html><center>Enviar<br>Reclamo<br>");
+        enviarReclamo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                enviarReclamoActionPerformed(evt);
+            }
+        });
+
+        enviarPregunta.setBackground(new java.awt.Color(204, 204, 255));
+        enviarPregunta.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        enviarPregunta.setText("<html><center>Enviar<br>Pregunta<br>");
+        enviarPregunta.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                enviarPreguntaActionPerformed(evt);
+            }
+        });
+
+        reclamos.setBackground(new java.awt.Color(255, 204, 204));
+        reclamos.setText("Ver Reclamos");
+        reclamos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                reclamosActionPerformed(evt);
+            }
+        });
+
+        preguntas.setBackground(new java.awt.Color(204, 204, 255));
+        preguntas.setText("Ver Preguntas");
+        preguntas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                preguntasActionPerformed(evt);
+            }
+        });
+
+        comentarios.setBackground(new java.awt.Color(204, 255, 204));
+        comentarios.setText("Ver Comentarios");
+        comentarios.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                comentariosActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(nombre, javax.swing.GroupLayout.PREFERRED_SIZE, 358, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(71, 71, 71)
+                        .addComponent(enviarComentario, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(64, 64, 64)
+                        .addComponent(enviarReclamo, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(65, 65, 65)
+                        .addComponent(enviarPregunta, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 156, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(reclamos)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(preguntas)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(comentarios))
+                    .addComponent(jScrollPane1))
+                .addContainerGap())
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(14, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(nombre, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel2))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(reclamos)
+                        .addComponent(preguntas)
+                        .addComponent(comentarios)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 443, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap())
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(enviarComentario, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(enviarReclamo, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(enviarPregunta, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(176, 176, 176))))
+        );
+
+        pack();
+    }// </editor-fold>//GEN-END:initComponents
+
+    private void enviarReclamoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_enviarReclamoActionPerformed
+
+        String comentario = JOptionPane.showInputDialog(null, "Introduce tu reclamo");
+
+        try {
+
+            FileWriter fw = new FileWriter(Ficheros.getArchivoReclamos(), true);
+            fw.write(user + "-" + comentario + "-" + dtf.format(now) + "-" + "null" + "\n");
+            fw.close();
+
+        } catch (IOException ex) {
+            Logger.getLogger(MiPerfil.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }//GEN-LAST:event_enviarReclamoActionPerformed
+
+    private void enviarPreguntaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_enviarPreguntaActionPerformed
+
+        String comentario = JOptionPane.showInputDialog(null, "Introduce tu Pregunta");
+
+        try {
+
+            FileWriter fw = new FileWriter(Ficheros.getArchivoPreguntas(), true);
+            fw.write(user + "-" + comentario + "-" + dtf.format(now) + "-" + "null" + "\n");
+            fw.close();
+
+        } catch (IOException ex) {
+            Logger.getLogger(MiPerfil.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }//GEN-LAST:event_enviarPreguntaActionPerformed
+
+    private void enviarComentarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_enviarComentarioActionPerformed
+
+        String comentario = JOptionPane.showInputDialog(null, "Introduce tu comentario");
+
+        try {
+
+            FileWriter fw = new FileWriter(Ficheros.getArchivoComentarios(), true);
+            fw.write(user + "-" + comentario + "-" + dtf.format(now) + "-" + "null" + "\n");
+            fw.close();
+
+        } catch (IOException ex) {
+            Logger.getLogger(MiPerfil.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }//GEN-LAST:event_enviarComentarioActionPerformed
+
+    private void reclamosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_reclamosActionPerformed
+        respuestas.setText("");
+        try {
+
+            BufferedReader reader = new BufferedReader(new FileReader(Ficheros.getArchivoReclamos()));
+
+            String linea;
+
+            while ((linea = reader.readLine()) != null) {
+
+                String[] datos = linea.split("-");
+
+                if (datos[0].equalsIgnoreCase(user)) {
+
+                    respuestas.append("---------\n");
+                    respuestas.append("Usuario: " + user + "\n");
+                    respuestas.append("Reclamo: " + datos[1] + "\n");
+                    respuestas.append("Fecha: " + datos[2] + "\n");
+                    respuestas.append("Respuesta: " + datos[3] + "\n");
+
+                }
+
+            }
+
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(MiPerfil.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(MiPerfil.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }//GEN-LAST:event_reclamosActionPerformed
+
+    private void preguntasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_preguntasActionPerformed
+        respuestas.setText("");
+
+        try {
+
+            BufferedReader reader = new BufferedReader(new FileReader(Ficheros.getArchivoPreguntas()));
+
+            String linea;
+
+            while ((linea = reader.readLine()) != null) {
+
+                String[] datos = linea.split("-");
+
+                if (datos[0].equalsIgnoreCase(user)) {
+
+                    respuestas.append("---------\n");
+                    respuestas.append("Usuario: " + user + "\n");
+                    respuestas.append("Pregunta: " + datos[1] + "\n");
+                    respuestas.append("Fecha: " + datos[2] + "\n");
+                    respuestas.append("Respuesta: " + datos[3] + "\n");
+
+                }
+
+            }
+
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(MiPerfil.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(MiPerfil.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+    }//GEN-LAST:event_preguntasActionPerformed
+
+    private void comentariosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comentariosActionPerformed
+        respuestas.setText("");
+
+        try {
+
+            BufferedReader reader = new BufferedReader(new FileReader(Ficheros.getArchivoComentarios()));
+
+            String linea;
+
+            while ((linea = reader.readLine()) != null) {
+
+                String[] datos = linea.split("-");
+
+                if (datos[0].equalsIgnoreCase(user)) {
+
+                    respuestas.append("---------\n");
+                    respuestas.append("Usuario: " + user + "\n");
+                    respuestas.append("Comentario: " + datos[1] + "\n");
+                    respuestas.append("Fecha: " + datos[2] + "\n");
+                    respuestas.append("Respuesta: " + datos[3] + "\n");
+
+                }
+
+            }
+
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(MiPerfil.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(MiPerfil.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+    }//GEN-LAST:event_comentariosActionPerformed
+
+    private void cargarUsuario() {
+
+        try {
+
+            BufferedReader br = new BufferedReader(new FileReader(Ficheros.getArchivoPreguntas()));
+
+            String linea;
+            while ((linea = br.readLine()) != null) {
+
+                String[] datos = linea.split(" ");
+
+                if (datos[0].equals(user)) {
+
+                    nombre.setText(datos[0]);
+                    break;
+
+                }
+
+            }
+
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(MiPerfil.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(MiPerfil.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }
+
+    public static void main(String args[]) {
+
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(MiPerfil.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(MiPerfil.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(MiPerfil.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(MiPerfil.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                MiPerfil dialog = new MiPerfil(new javax.swing.JFrame(), true, null);
+                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
+                    @Override
+                    public void windowClosing(java.awt.event.WindowEvent e) {
+                        System.exit(0);
+                    }
+                });
+                dialog.setVisible(true);
+            }
+        });
+    }
+
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton comentarios;
+    private javax.swing.JButton enviarComentario;
+    private javax.swing.JButton enviarPregunta;
+    private javax.swing.JButton enviarReclamo;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel nombre;
+    private javax.swing.JButton preguntas;
+    private javax.swing.JButton reclamos;
+    private javax.swing.JTextArea respuestas;
+    // End of variables declaration//GEN-END:variables
+}
