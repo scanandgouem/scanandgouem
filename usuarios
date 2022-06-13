@@ -1,0 +1,40 @@
+package POJO;
+
+public class Usuario {
+    
+    String id, user, pass;
+    int admin;
+
+    public Usuario(String user, String pass, int admin) {
+        this.user = user;
+        this.pass = pass;
+        this.admin = admin;
+    }
+
+    public String getUser() {
+        return user;
+    }
+
+    public void setUser(String user) {
+        this.user = user;
+    }
+
+    public String getPass() {
+        return pass;
+    }
+
+    public void setPass(String pass) {
+        this.pass = pass;
+    }
+
+    public int getAdmin() {
+        return admin;
+    }
+
+    public void setAdmin(int admin) {
+        this.admin = admin;
+    }
+    
+    
+    
+}
