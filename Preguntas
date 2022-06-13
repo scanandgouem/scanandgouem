@@ -1,0 +1,231 @@
+package view;
+
+import POJO.Accion;
+import POJO.Ficheros;
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
+public class Preguntas extends javax.swing.JDialog {
+
+    public Preguntas(java.awt.Frame parent, boolean modal) {
+        super(parent, modal);
+        initComponents();
+
+        this.setLocationRelativeTo(null);
+
+        cargarPreguntas();
+
+    }
+
+    private void cargarPreguntas() {
+
+        DefaultTableModel m = (DefaultTableModel) preguntas.getModel();
+        Object[] row = new Object[4];
+
+        try {
+
+            BufferedReader br = new BufferedReader(new FileReader(Ficheros.getArchivoPreguntas()));
+
+            String linea;
+            while ((linea = br.readLine()) != null) {
+
+                String[] datos = linea.split("-");
+
+                row[0] = datos[1];
+                row[1] = datos[0];
+                row[2] = datos[2];
+
+                m.addRow(row);
+
+            }
+
+            preguntas.setModel(m);
+
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(Reclamos.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(Reclamos.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }
+
+    @SuppressWarnings("unchecked")
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    private void initComponents() {
+
+        jLabel1 = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        preguntas = new javax.swing.JTable();
+        jButton1 = new javax.swing.JButton();
+
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+
+        jLabel1.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
+        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel1.setText("Listado de Preguntas Realizadas por Clientes");
+
+        preguntas.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
+        preguntas.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "PREGUNTA", "CLIENTE", "FECHA"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane1.setViewportView(preguntas);
+        if (preguntas.getColumnModel().getColumnCount() > 0) {
+            preguntas.getColumnModel().getColumn(0).setPreferredWidth(300);
+            preguntas.getColumnModel().getColumn(1).setMinWidth(50);
+            preguntas.getColumnModel().getColumn(2).setPreferredWidth(200);
+        }
+
+        jButton1.setBackground(new java.awt.Color(204, 255, 204));
+        jButton1.setText("<html><center>Responder<br>seleccionada<br>");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 603, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 313, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton1)
+                .addContainerGap())
+        );
+
+        pack();
+    }// </editor-fold>//GEN-END:initComponents
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+
+        int row = preguntas.getSelectedRow();
+
+        if (row != -1) {
+            
+            String respuesta = JOptionPane.showInputDialog(null, "Introduce tu respuesta");
+
+            ArrayList<Accion> acciones = new ArrayList<>();
+
+            try {
+
+                BufferedReader reader = new BufferedReader(new FileReader(Ficheros.getArchivoPreguntas()));
+
+                String linea;
+
+                while ((linea = reader.readLine()) != null) {
+
+                    String[] datos = linea.split("-");
+
+                    if (datos[1].equalsIgnoreCase(preguntas.getValueAt(row, 0).toString())) {
+
+                        acciones.add(new Accion(datos[0], datos[1], datos[2], respuesta));
+
+                    } else {
+
+                        acciones.add(new Accion(datos[0], datos[1], datos[2]));
+
+                    }
+
+                }
+
+                Ficheros.getArchivoPreguntas().delete();
+
+                FileWriter fw = new FileWriter(Ficheros.getArchivoPreguntas());
+
+                for (Accion a : acciones) {
+
+                    fw.write(a.getUser() + "-" + a.getAccion() + "-" + a.getFecha() + "-" + a.getRespuesta()+"\n");
+
+                }
+
+                fw.close();
+
+            } catch (FileNotFoundException ex) {
+                Logger.getLogger(Reclamos.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (IOException ex) {
+                Logger.getLogger(Reclamos.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+        } else {
+            JOptionPane.showMessageDialog(null, "Debes seleccionar una pregunta");
+        }
+
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    public static void main(String args[]) {
+
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(Preguntas.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(Preguntas.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(Preguntas.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(Preguntas.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                Preguntas dialog = new Preguntas(new javax.swing.JFrame(), true);
+                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
+                    @Override
+                    public void windowClosing(java.awt.event.WindowEvent e) {
+                        System.exit(0);
+                    }
+                });
+                dialog.setVisible(true);
+            }
+        });
+    }
+
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButton1;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTable preguntas;
+    // End of variables declaration//GEN-END:variables
+}
