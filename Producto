@@ -1,0 +1,39 @@
+package POJO;
+
+public class Producto {
+    
+    String nombre, precio, supermercado;
+
+    public Producto(String nombre, String precio, String supermercado) {
+        this.nombre = nombre;
+        this.precio = precio;
+        this.supermercado = supermercado;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public String getPrecio() {
+        return precio;
+    }
+
+    public void setPrecio(String precio) {
+        this.precio = precio;
+    }
+
+    public String getSupermercado() {
+        return supermercado;
+    }
+
+    public void setSupermercado(String supermercado) {
+        this.supermercado = supermercado;
+    }
+    
+    
+    
+}
