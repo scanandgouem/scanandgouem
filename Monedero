@@ -1,0 +1,339 @@
+package view;
+
+import POJO.Ficheros;
+import java.awt.Image;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
+import java.awt.image.BufferedImage;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JComboBox;
+import javax.swing.JOptionPane;
+
+public class Monedero extends javax.swing.JDialog {
+
+    String user;
+    
+    public Monedero(java.awt.Frame parent, boolean modal, String user) {
+        super(parent, modal);
+        initComponents();
+        
+        this.user = user;
+        
+        this.setTitle("Mis tarjetas");
+        this.setLocationRelativeTo(null);
+
+        //iamgen de fondo de la tarjeta
+        try {
+
+            BufferedImage bi = ImageIO.read(new File("scango.png"));
+            Image i = bi.getScaledInstance(logo.getWidth(), logo.getHeight(), Image.SCALE_SMOOTH);
+            ImageIcon icon = new ImageIcon(i);
+            logo.setIcon(icon);
+
+        } catch (IOException ex) {
+            Logger.getLogger(Monedero.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        cargarTarjetas(tarjetas);
+
+    }
+
+    public void cargarTarjetas(JComboBox combo) {
+
+        DefaultComboBoxModel model = new DefaultComboBoxModel();
+        model.addElement("Selecciona una tarjeta");
+
+        try {
+            
+            BufferedReader br = new BufferedReader(new FileReader(Ficheros.getArchivoTarjetas()));
+            
+            String linea;
+            
+            while((linea = br.readLine()) != null){
+                
+                String [] datos = linea.split("-");
+                
+                if(datos[1].equalsIgnoreCase(user)){
+                    
+                    model.addElement(datos[0]);
+                    
+                }
+                
+            }
+            
+            tarjetas.setModel(model);
+            
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(Monedero.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(Monedero.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }
+
+    @SuppressWarnings("unchecked")
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    private void initComponents() {
+
+        tarjetas = new javax.swing.JComboBox<>();
+        jLabel1 = new javax.swing.JLabel();
+        tarjeta = new javax.swing.JPanel();
+        logo = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        numero = new javax.swing.JLabel();
+        fecha = new javax.swing.JLabel();
+        nombre = new javax.swing.JLabel();
+        fecha1 = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
+
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+
+        tarjetas.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        tarjetas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                tarjetasActionPerformed(evt);
+            }
+        });
+
+        jLabel1.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel1.setText("Mis Tarjetas");
+
+        tarjeta.setBackground(new java.awt.Color(153, 153, 255));
+        tarjeta.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+
+        jLabel2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel2.setText("Debit");
+
+        numero.setFont(new java.awt.Font("Tahoma", 0, 28)); // NOI18N
+        numero.setForeground(new java.awt.Color(255, 255, 255));
+
+        fecha.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        fecha.setForeground(new java.awt.Color(255, 255, 255));
+
+        nombre.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        nombre.setForeground(new java.awt.Color(255, 255, 255));
+
+        fecha1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        fecha1.setForeground(new java.awt.Color(255, 255, 255));
+        fecha1.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        fecha1.setText("VÃ¡lido hasta >");
+
+        javax.swing.GroupLayout tarjetaLayout = new javax.swing.GroupLayout(tarjeta);
+        tarjeta.setLayout(tarjetaLayout);
+        tarjetaLayout.setHorizontalGroup(
+            tarjetaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(tarjetaLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(tarjetaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, tarjetaLayout.createSequentialGroup()
+                        .addComponent(logo, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel2))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, tarjetaLayout.createSequentialGroup()
+                        .addGap(0, 30, Short.MAX_VALUE)
+                        .addGroup(tarjetaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(tarjetaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(nombre, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 432, Short.MAX_VALUE)
+                                .addComponent(numero, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addGroup(tarjetaLayout.createSequentialGroup()
+                                .addComponent(fecha1, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(fecha, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                .addContainerGap())
+        );
+        tarjetaLayout.setVerticalGroup(
+            tarjetaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(tarjetaLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(tarjetaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel2)
+                    .addComponent(logo, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(44, 44, 44)
+                .addComponent(numero, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(46, 46, 46)
+                .addGroup(tarjetaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(fecha1, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(fecha, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(nombre, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(20, Short.MAX_VALUE))
+        );
+
+        jButton1.setBackground(new java.awt.Color(102, 255, 102));
+        jButton1.setText("+");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap(103, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 414, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addComponent(tarjetas, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton1))
+                    .addComponent(tarjeta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(98, Short.MAX_VALUE))
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(36, 36, 36)
+                .addComponent(jLabel1)
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(tarjetas, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(52, 52, 52)
+                .addComponent(tarjeta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(52, Short.MAX_VALUE))
+        );
+
+        pack();
+    }// </editor-fold>//GEN-END:initComponents
+
+    private void tarjetasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tarjetasActionPerformed
+
+        if (tarjetas.getSelectedIndex() > 0) {
+
+            String tarjeta = tarjetas.getSelectedItem().toString();
+            
+            try {
+                
+                BufferedReader reader = new BufferedReader(new FileReader(Ficheros.getArchivoTarjetas()));
+                
+                String linea;
+                while((linea = reader.readLine()) != null){
+                    
+                    String [] datos = linea.split("-");
+                    
+                    if(datos[0].equals(tarjeta)){
+                        
+                        nombre.setText(user);
+                        numero.setText(datos[0]);
+                        fecha.setText(datos[2]);
+                        
+                    }
+                    
+                }
+                
+            } catch (FileNotFoundException ex) {
+                Logger.getLogger(Monedero.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (IOException ex) {
+                Logger.getLogger(Monedero.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+        }
+
+
+    }//GEN-LAST:event_tarjetasActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        
+        NuevaTarjeta n = new NuevaTarjeta(null, true, user);
+        n.setVisible(true);
+        n.addWindowListener(new WindowListener() {
+            @Override
+            public void windowOpened(WindowEvent e) {
+            }
+
+            @Override
+            public void windowClosing(WindowEvent e) {
+            }
+
+            @Override
+            public void windowClosed(WindowEvent e) {
+                
+                cargarTarjetas(tarjetas);
+                
+            }
+
+            @Override
+            public void windowIconified(WindowEvent e) {
+            }
+
+            @Override
+            public void windowDeiconified(WindowEvent e) {
+            }
+
+            @Override
+            public void windowActivated(WindowEvent e) {
+            }
+
+            @Override
+            public void windowDeactivated(WindowEvent e) {
+            }
+        });
+        
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    public static void main(String args[]) {
+
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(Monedero.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(Monedero.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(Monedero.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(Monedero.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                Monedero dialog = new Monedero(new javax.swing.JFrame(), true, null);
+                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
+                    @Override
+                    public void windowClosing(java.awt.event.WindowEvent e) {
+                        System.exit(0);
+                    }
+                });
+                dialog.setVisible(true);
+            }
+        });
+    }
+
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel fecha;
+    private javax.swing.JLabel fecha1;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel logo;
+    private javax.swing.JLabel nombre;
+    private javax.swing.JLabel numero;
+    private javax.swing.JPanel tarjeta;
+    public static javax.swing.JComboBox<String> tarjetas;
+    // End of variables declaration//GEN-END:variables
+}
