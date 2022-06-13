@@ -1,0 +1,35 @@
+package POJO;
+
+import java.io.File;
+
+public class Ficheros {
+    
+    public static File getArchivoUsuarios(){ 
+        return new File("usuarios.txt");     
+    }
+    
+    public static File getArchivoComentarios(){ 
+        return new File("archivos/comentarios.txt");     
+    }
+    
+    public static File getArchivoPreguntas(){ 
+        return new File("archivos/preguntas.txt");     
+    }
+    
+    public static File getArchivoProductos(){ 
+        return new File("archivos/productos.txt");     
+    }
+    
+    public static File getArchivoReclamos(){ 
+        return new File("archivos/reclamos.txt");     
+    }
+    
+    public static File getArchivoSupermercados(){ 
+        return new File("archivos/supermercados.txt");     
+    }
+    
+    public static File getArchivoTarjetas(){ 
+        return new File("archivos/tarjetas.txt");     
+    }
+    
+}
