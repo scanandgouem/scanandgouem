@@ -1,0 +1,47 @@
+package POJO;
+
+import java.util.ArrayList;
+import javax.swing.JPasswordField;
+import javax.swing.JTextField;
+
+public class Utils {
+
+    public static boolean isLogged(JTextField user, JPasswordField pass) {
+
+        ArrayList<Usuario> usuarios = Listas.getUsuarios();
+
+        String pas = new String(pass.getPassword());
+
+        for (Usuario u : usuarios) {
+
+            if (u.getUser().equals(user.getText()) && u.getPass().equals(pas)) {
+
+                return true;
+
+            }
+
+        }
+
+        return false;
+
+    }
+
+    public static boolean isAdmin(String user) {
+
+        ArrayList<Usuario> usuarios = Listas.getUsuarios();
+
+        for (Usuario u : usuarios) {
+
+            if (u.getUser().equals(user) && u.getAdmin() == 1) {
+
+                return true;
+
+            }
+
+        }
+
+        return false;
+
+    }
+
+}
