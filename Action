@@ -1,0 +1,56 @@
+package POJO;
+
+public class Accion {
+    
+    String user, accion, fecha, respuesta;
+
+    public Accion(String user, String accion, String fecha, String respuesta) {
+        this.user = user;
+        this.accion = accion;
+        this.fecha = fecha;
+        this.respuesta = respuesta;
+    }
+
+    public Accion(String user, String accion, String fecha) {
+        this.user = user;
+        this.accion = accion;
+        this.fecha = fecha;
+    }
+    
+    
+
+    public String getUser() {
+        return user;
+    }
+
+    public void setUser(String user) {
+        this.user = user;
+    }
+
+    public String getAccion() {
+        return accion;
+    }
+
+    public void setAccion(String accion) {
+        this.accion = accion;
+    }
+
+    public String getFecha() {
+        return fecha;
+    }
+
+    public void setFecha(String fecha) {
+        this.fecha = fecha;
+    }
+
+    public String getRespuesta() {
+        return respuesta;
+    }
+
+    public void setRespuesta(String respuesta) {
+        this.respuesta = respuesta;
+    }
+    
+    
+    
+}
